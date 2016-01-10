@@ -1,3 +1,11 @@
+ifndef VLIC_PORT
+	VLIC_PORT := 8080
+endif
+
+ifndef COUCHDB_PORT 
+	COUCHDB_PORT := 5984
+endif
+
 clone:
 	mkdir -p .ssh
 	cp ~/.ssh/id_rsa* ./.ssh 
@@ -8,11 +16,18 @@ clone:
 	-curl http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz > rocklog-vlic/resources/geolite2/GeoLite2-City.mmdb.gz
 	-gzip -d rocklog-vlic/resources/geolite2/GeoLite2-City.mmdb.gz
 
+update:
+	echo "Update VLIC from gtihub repo"
+	(cd rocklog-vlic && git fetch && git pull)
+
+build-vlic:
+	(cd rocklog-vlic && lein clean && lein javac && lein uberjar)
+
 build:
 	sudo docker build -t vlic/vlic_runner:v1 .
 
 bash:
-	sudo docker run -t -p 5984:5984 -p 8080:8080 -it vlic/vlic_runner:v1 couchdb bash
+	sudo docker run -t -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -it vlic/vlic_runner:v1 couchdb bash
 
 medium:
-	sudo docker run -d -t -p 5984:5984 -p 8080:8080 -it vlic/vlic_runner:v1 couchdb medium
+	sudo docker run -d -t -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -it vlic/vlic_runner:v1 couchdb medium
