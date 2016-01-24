@@ -21,3 +21,10 @@ if [ "$2" = 'medium' ]; then
     java -jar target/rocklog-vlic-0.2-SNAPSHOT-standalone.jar --private-key-file ~/.ssh/id_ecdsa --generate-testdata medium > vlic.log &
     exec bash
 fi 
+
+if [ "$2" = 'medium-raw' ]; then
+    echo "start rocklog-vlic with medium dataset"
+    cd rocklog-vlic
+    java -jar target/rocklog-vlic-0.2-SNAPSHOT-standalone.jar --private-key-file ~/.ssh/id_ecdsa > vlic.log &
+    exec bash
+fi 

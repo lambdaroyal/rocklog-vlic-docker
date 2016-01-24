@@ -1,9 +1,15 @@
+current_dir := $(shell pwd)
+
 ifndef VLIC_PORT
 	VLIC_PORT := 8080
 endif
 
 ifndef COUCHDB_PORT 
 	COUCHDB_PORT := 5984
+endif
+
+ifndef CONT_NAME
+	CONT_NAME := $(shell date +%s | sha256sum | base64 | head -c 32)
 endif
 
 clone:
@@ -31,3 +37,14 @@ bash:
 
 medium:
 	sudo docker run -d -t -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -it vlic/vlic_runner:v1 couchdb medium
+
+medium-raw:
+	sudo docker run -d -t -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -it vlic/vlic_runner:v1 couchdb medium-raw
+
+medium-persistent:
+	echo "Building medium size container with unique data dir $(CONT_NAME)"
+	-mkdir $(CONT_NAME)
+	-mkdir $(CONT_NAME)/data
+	-mkdir $(CONT_NAME)/tmp
+	-mkdir $(CONT_NAME)/log
+	sudo docker run -d -t -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -it vlic/vlic_runner:v1 couchdb medium-raw

@@ -1,2 +1,5 @@
 rocklog-vlic/
 .ssh/
+*_release/
+*_develop/
+*_development/
