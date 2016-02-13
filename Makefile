@@ -48,3 +48,20 @@ medium-persistent:
 	-mkdir $(CONT_NAME)/tmp
 	-mkdir $(CONT_NAME)/log
 	sudo docker run -d -t -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -it vlic/vlic_runner:v1 couchdb medium-raw
+
+big-persistent:
+	echo "Building big size container with unique data dir $(CONT_NAME)"
+	-mkdir $(CONT_NAME)
+	-mkdir $(CONT_NAME)/data
+	-mkdir $(CONT_NAME)/tmp
+	-mkdir $(CONT_NAME)/log
+	sudo docker run -d -t -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -it vlic/vlic_runner:v1 couchdb big-raw
+
+
+demo:
+	echo "Building demo container with unique data dir $(CONT_NAME)"
+	-mkdir $(CONT_NAME)
+	-mkdir $(CONT_NAME)/data
+	-mkdir $(CONT_NAME)/tmp
+	-mkdir $(CONT_NAME)/log
+	sudo docker run -d -t -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -it vlic/vlic_runner:v1 couchdb demo

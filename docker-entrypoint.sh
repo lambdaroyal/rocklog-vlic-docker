@@ -28,3 +28,17 @@ if [ "$2" = 'medium-raw' ]; then
     java -jar target/rocklog-vlic-0.2-SNAPSHOT-standalone.jar --private-key-file ~/.ssh/id_ecdsa > vlic.log &
     exec bash
 fi 
+
+if [ "$2" = 'big-raw' ]; then
+    echo "start rocklog-vlic with big dataset"
+    cd rocklog-vlic
+    java -jar target/rocklog-vlic-0.2-SNAPSHOT-standalone.jar --private-key-file ~/.ssh/id_ecdsa --generate-testdata big > vlic.log &
+    exec bash
+fi 
+
+if [ "$2" = 'demo' ]; then
+    echo "start rocklog-vlic with demo dataset"
+    cd rocklog-vlic
+    java -jar target/rocklog-vlic-0.2-SNAPSHOT-standalone.jar --private-key-file ~/.ssh/id_ecdsa --generate-testdata demo > vlic.log &
+    exec bash
+fi 
