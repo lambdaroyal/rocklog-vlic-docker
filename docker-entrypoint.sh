@@ -18,27 +18,27 @@ fi
 if [ "$2" = 'medium' ]; then
     echo "start rocklog-vlic with medium dataset"
     cd rocklog-vlic
-    java -jar target/rocklog-vlic-0.2-SNAPSHOT-standalone.jar --private-key-file ~/.ssh/id_ecdsa --generate-testdata medium > vlic.log &
+    java -jar target/rocklog-vlic-0.2-SNAPSHOT-standalone.jar --private-key-file ~/.ssh/id_ecdsa --generate-testdata medium &
     exec bash
 fi 
 
 if [ "$2" = 'medium-raw' ]; then
     echo "start rocklog-vlic with medium dataset"
     cd rocklog-vlic
-    java -jar target/rocklog-vlic-0.2-SNAPSHOT-standalone.jar --private-key-file ~/.ssh/id_ecdsa > vlic.log &
+    java -jar target/rocklog-vlic-0.2-SNAPSHOT-standalone.jar --private-key-file ~/.ssh/id_ecdsa &
     exec bash
 fi 
 
 if [ "$2" = 'big-raw' ]; then
     echo "start rocklog-vlic with big dataset"
     cd rocklog-vlic
-    java -jar target/rocklog-vlic-0.2-SNAPSHOT-standalone.jar --private-key-file ~/.ssh/id_ecdsa --generate-testdata big > vlic.log &
+    java -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-0.2-SNAPSHOT-standalone.jar --private-key-file ~/.ssh/id_ecdsa --generate-testdata big &
     exec bash
 fi 
 
 if [ "$2" = 'demo' ]; then
     echo "start rocklog-vlic with demo dataset"
     cd rocklog-vlic
-    java -jar target/rocklog-vlic-0.2-SNAPSHOT-standalone.jar --private-key-file ~/.ssh/id_ecdsa --generate-testdata demo > vlic.log &
+    java -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-0.2-SNAPSHOT-standalone.jar --private-key-file ~/.ssh/id_ecdsa --generate-testdata demo &
     exec bash
 fi 

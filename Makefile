@@ -33,13 +33,13 @@ build:
 	sudo docker build -t vlic/vlic_runner:v1 .
 
 bash:
-	sudo docker run -t -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -it vlic/vlic_runner:v1 couchdb bash
+	sudo docker run -t -r -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -it vlic/vlic_runner:v1 couchdb bash
 
 medium:
-	sudo docker run -d -t -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -it vlic/vlic_runner:v1 couchdb medium
+	sudo docker run -d -t --restart='always' -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -it vlic/vlic_runner:v1 couchdb medium
 
 medium-raw:
-	sudo docker run -d -t -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -it vlic/vlic_runner:v1 couchdb medium-raw
+	sudo docker run -d -t --restart='always' -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -it vlic/vlic_runner:v1 couchdb medium-raw
 
 medium-persistent:
 	echo "Building medium size container with unique data dir $(CONT_NAME)"
@@ -47,7 +47,7 @@ medium-persistent:
 	-mkdir $(CONT_NAME)/data
 	-mkdir $(CONT_NAME)/tmp
 	-mkdir $(CONT_NAME)/log
-	sudo docker run -d -t -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -it vlic/vlic_runner:v1 couchdb medium-raw
+	sudo docker run -d -t --restart='always' -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -it vlic/vlic_runner:v1 couchdb medium-raw
 
 big-persistent:
 	echo "Building big size container with unique data dir $(CONT_NAME)"
@@ -55,7 +55,7 @@ big-persistent:
 	-mkdir $(CONT_NAME)/data
 	-mkdir $(CONT_NAME)/tmp
 	-mkdir $(CONT_NAME)/log
-	sudo docker run -d -t -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -it vlic/vlic_runner:v1 couchdb big-raw
+	sudo docker run -d -t --restart='always' -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -it vlic/vlic_runner:v1 couchdb big-raw
 
 
 demo:
@@ -64,4 +64,4 @@ demo:
 	-mkdir $(CONT_NAME)/data
 	-mkdir $(CONT_NAME)/tmp
 	-mkdir $(CONT_NAME)/log
-	sudo docker run -d -t -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -it vlic/vlic_runner:v1 couchdb demo
+	sudo docker run -d -t --restart='always' -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -it vlic/vlic_runner:v1 couchdb demo
