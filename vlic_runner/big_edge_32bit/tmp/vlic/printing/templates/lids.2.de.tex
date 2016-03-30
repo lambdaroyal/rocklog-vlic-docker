@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage{geometry}
+\geometry{a4paper,right=5mm, left=5mm,top=10mm,total={209mm,295mm}}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\inputencoding{utf8}
+\usepackage{graphicx, lipsum, showexpl, color, blindtext, array, tabu, tikz, xcolor, framed, fixltx2e}
+\usepackage{pst-barcode,pstricks}
+\usepackage{anyfontsize}
+\usepackage{eso-pic, rotating}
+\usepackage{pifont}
+\definecolor{gray}{rgb}{0.8,0.8,0.8}
+\pagenumbering{gobble}
+\renewcommand{\familydefault}{\sfdefault}
+\newcommand*\sepline{%
+  \begin{center}
+    \rule[1ex]{1\paperwidth}{.5pt}
+\end{center}}
+
+% Version/Report Info
+\newcommand{\VersionInfo}[0]{%
+  \makebox(0,0){\put(0,0){%
+    \rotatebox{90}{{\scriptsize 1.0/lids.2.de.tex}}}}}
+
+\newcommand\Cutter[1]{%
+  \noindent{\fcolorbox{white}{white}{#1}}
+}
+
+\begin{document}
+\psset{unit=1in}
+!subs!
+\end{document}

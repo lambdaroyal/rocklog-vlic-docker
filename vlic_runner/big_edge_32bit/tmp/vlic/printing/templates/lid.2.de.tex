@@ -1,0 +1,68 @@
+\documentclass{article}
+\usepackage[paperwidth=10cm, paperheight=4.8cm, margin=0in]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\inputencoding{utf8}
+\usepackage{graphicx, lipsum, showexpl, color, blindtext, array, tabu, tikz}
+\usepackage{pst-barcode,pstricks}
+\usepackage{eso-pic, rotating}
+\usepackage{pifont}
+\definecolor{yel}{rgb}{1,1,0}
+\pagecolor{yel}
+\pagenumbering{gobble}
+\renewcommand{\familydefault}{\sfdefault}
+\newcommand*\sepline{%
+  \begin{center}
+    \rule[1ex]{1\paperwidth}{.5pt}
+\end{center}}
+
+% Background image
+\newcommand{\URCornerWallPaper}[2]{%
+  \AddToShipoutPicture{%
+    \AtPageLowerLeft{%
+      \parbox[b][\paperheight]{0.97\paperwidth}{%       
+        \hfill \includegraphics[width=#1\paperwidth,height=#1\paperheight,%
+          keepaspectratio]{#2}%
+        \vfill%
+      }
+    }
+  }
+}
+
+% Version/Report Info
+\newcommand{\VersionInfo}[0]{%
+  \AddToShipoutPicture{%
+    \AtPageLowerLeft{%
+      \parbox[b][\paperheight]{\paperwidth}{%       
+        \hfill 
+        \rotatebox{90}{
+          {\scriptsize !version!/!report!}
+        }
+        \vfill%
+      }
+    }
+  }
+}
+
+
+
+\begin{document}
+\URCornerWallPaper{0.3}{../images/rocklog_logo_plain_yellow.eps}
+\VersionInfo
+\psset{unit=1in}
+\begin{minipage}[b][0.7\paperheight][b]{\paperwidth}
+  \begin{tabu} to 0.9\paperwidth { X[2l] X[r]}
+    \multicolumn{2}{l}{
+      {\scriptsize Location:   }{\huge !location!} 
+
+    }
+    \\
+    \\
+    & \huge{\ding{109} !checkdigit0!} \\
+    \begin{pspicture}(3.5,0.1)
+      \psbarcode{!lid!}{includetext height=0.5}{code128}
+    \end{pspicture} &
+    \huge{\ding{112} !checkdigit1!}
+  \end{tabu}
+\end{minipage}
+\end{document}

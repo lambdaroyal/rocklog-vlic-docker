@@ -1,0 +1,89 @@
+% A4 SID Label with location
+%
+% Author gixxi
+\documentclass[17pt]{extreport}
+\usepackage{geometry}
+\geometry{a4paper,right=15mm, left=15mm,top=15mm,total={209mm,295mm}}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\inputencoding{utf8}
+\usepackage{graphicx, lipsum, showexpl, color, blindtext, array, tabu, tikz, truncate}
+\usepackage{pst-barcode,pstricks}
+\usepackage{anyfontsize}
+\usepackage{eso-pic, rotating}
+\usepackage{pifont}
+\pagenumbering{gobble}
+\renewcommand{\familydefault}{\sfdefault}
+\newcommand*\sepline{%
+  \begin{center}
+    \rule[1ex]{0.8\paperwidth}{.5pt}
+\end{center}}
+
+% Background image
+\newcommand{\URCornerWallPaper}[2]{%
+  \AddToShipoutPicture{%
+    \AtPageLowerLeft{%
+      \parbox[b][\paperheight]{0.97\paperwidth}{%       
+        \hfill \includegraphics[width=#1\paperwidth,height=#1\paperheight,%
+          keepaspectratio]{#2}%
+        \vfill%
+      }
+    }
+  }
+}
+
+\newcommand{\DataMatrix}[0]{%
+  \AddToShipoutPicture{%
+    \put(\LenToUnit{0.705\paperwidth},\LenToUnit{0.20\paperheight}){
+          \begin{pspicture}(1.6in,1.6in)
+            \psbarcode{!datamatrix-raw!}{rows=40 columns=40 raw}{datamatrix}
+          \end{pspicture}
+    }
+  }
+}
+
+% Version/Report Info
+\newcommand{\VersionInfo}[0]{%
+  \AddToShipoutPicture{%
+    \AtPageLowerLeft{%
+      \parbox[b][\paperheight]{\paperwidth}{%       
+        \hfill 
+        \rotatebox{90}{
+          {\scriptsize !version!/!report!}
+        }
+        \vfill%
+      }
+    }
+  }
+}
+
+\begin{document}
+\URCornerWallPaper{0.2}{../images/PlanetRockLogo_blue_HE_3.eps}
+\VersionInfo
+\psset{unit=1in}
+\begin{minipage}[t][120mm][t]{\paperwidth}
+  \vspace{30mm}
+  \begin{tabu} to \paperwidth { X[1l] X[2] }
+    MANDATOR / CLIENT & \truncate{11cm}{!client!} \\
+    SID & !sid! \\
+    ITEM & \truncate{11cm}{!article-no!} \\
+    DESCRIPTION & \truncate{11cm}{!article-name!} \\
+    QUANTITY & !amount! \\
+    UNIT & \truncate{11cm}{!unit!} \\
+    LOCATION & \truncate{11cm}{!location!} \\
+    CREATION DATE & !creation-date! \\
+    BATCH & \truncate{11cm}{!batch!}
+  \end{tabu}
+\end{minipage}
+\sepline
+\begin{minipage}[t][80mm][b]{\paperwidth}
+  \begin{tabu} to \paperwidth { X[c] }
+    \begin{pspicture}(6.5,0.1)
+      \psbarcode{!sid!}{includetext height=0.75}{code128}
+    \end{pspicture} \\ 
+    \\
+    {\textcolor{gray}{\fontsize{170}{190}\selectfont \ding{108}}}{\fontsize{170}{190}\selectfont !checkdigit0!} \\
+    {\textcolor{gray}{\fontsize{170}{190}\selectfont \ding{110}}}{\fontsize{170}{190}\selectfont !checkdigit1!} \\
+  \end{tabu}
+\end{minipage}
+\end{document}

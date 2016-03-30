@@ -1,0 +1,80 @@
+\documentclass{article}
+\usepackage[a6paper, margin=0in]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx, lipsum, showexpl, color, blindtext, array, tabu, tikz}
+\usepackage{pst-barcode,pstricks}
+\pagenumbering{gobble}
+\renewcommand{\familydefault}{\sfdefault}
+\newcommand*\sepline{%
+  \begin{center}
+    \rule[1ex]{1\paperwidth}{.5pt}
+\end{center}}
+
+\usepackage{eso-pic}
+
+\newcommand\BackgroundPic{
+  \put(0,0){
+    \parbox[b][\paperheight]{0.95\paperwidth}{%
+      \vfill
+      \raggedleft
+      \includegraphics[width=3cm,
+        keepaspectratio]{../images/rocklog_logo_plain.eps}%
+}}}
+
+
+\begin{document}
+
+\AddToShipoutPicture{\BackgroundPic}
+
+\psset{unit=1in}
+\begin{center}
+  \begin{minipage}[t][0.2\paperheight][t]{0.45\paperwidth}
+    Dumet AG\newline
+    Sumpfstrasse 30\newline
+    6312 Steinhausen\newline
+    Switzerland\newline
+    +41 41 784 50 10
+  \end{minipage}
+  \begin{minipage}[t][0.2\paperheight][t]{0.45\paperwidth}
+    \begin{tabu} to \paperwidth { | X[l]}
+      {\tiny Artikel } \\
+      Oliven, schwarz \\ \hline
+      {\tiny Bezeichnung} \\
+      Herkunft Griechenland \\ \hline
+      {\tiny Charge} \\
+      !batch! \\ \hline
+      {\tiny mindestens haltbar bis} \\
+      12.11.2016 \\ \hline
+    \end{tabu}
+  \end{minipage}
+  \sepline
+  \begin{tabu} { X[l] X[l]}
+    {\tiny SSCC } & {\tiny Lagerbestandsinformation} \\
+    \begin{pspicture}(3.5,1.2)
+      \psbarcode{00376112373007809649}{includetext}{code128}
+    \end{pspicture} &
+    \begin{pspicture}(1.5in,1.5in)
+      \psbarcode{00376112373007809649}{rows=40 columns=40 parse}{datamatrix}
+    \end{pspicture}
+  \end{tabu}
+  \begin{figure*}[!b]
+    \sepline
+    \centering
+        {\tiny
+          \begin{tabu} to 0.75\paperwidth { X[l] X[2l]}
+            Report & Gedruckt durch/am \\
+            stock.1.de.tex & 
+            Christian Meichsner / 12.10.2015 22:13:57 CET \\
+            \multicolumn{2}{c}{
+              \begin{pspicture}(12,0.15in)
+                \psbarcode{1234232343423454665463543454}{height=0.15}{code128}
+              \end{pspicture}
+            }
+          \end{tabu}
+        }
+  \end{figure*}
+
+  
+\end{center}
+\end{document}
