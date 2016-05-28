@@ -56,3 +56,8 @@ if [ "$1" = 'medium-raw-32bit' ]; then
     java-i586 -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa &
     exec bash
 fi 
+
+if [ "$1" = 'medium-raw-32bit-just-daemon' ]; then
+    echo "start rocklog-vlic with medium numberrange set without generating demo data in 32bit vm"
+    java-i586 -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
+fi 
