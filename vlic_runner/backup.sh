@@ -40,5 +40,5 @@ rm -f $archive $archive.gpg
 echo "Create archive $archive from $source"
 tar czf $archive $source
 echo $gpgpasswd|gpg --batch --passphrase-fd 0 -c $archive
-ftp-upload -h $ftpserver -u $ftpuser --password $ftppass -d $ftpdir $archive.gpg
+lftp -e "set ftp:ssl-protect-data true; set ssl:verify-certificate false;set ftp:ssl-force true; put -O $ftpdir $archive.gpg; bye" -u $ftpuser,$ftppass $ftpserver
 rm -f $archive $archive.gpg
