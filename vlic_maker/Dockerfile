@@ -6,7 +6,7 @@ RUN apt-get update && \
     apt-get install -y --force-yes supervisor git sudo ssh
 
 # Install lessc
-RUN npm install -g less glob node-version-assets
+RUN npm install -g less glob node-version-assets msx
 
 # Install nginx
 RUN apt-get install -y --force-yes nginx
