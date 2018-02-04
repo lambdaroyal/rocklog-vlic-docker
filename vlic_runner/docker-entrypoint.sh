@@ -5,6 +5,15 @@ set -e
 #     or need to start multiple services in the one container
 trap "echo TRAPed signal" HUP INT QUIT KILL TERM
 
+function prestart {
+  echo "extracting archives"
+  tar xf /tmp/vlic/rocklog-vlic.tar.gz
+
+  echo "build ssh keyfiles for ecdsa web tokens"
+  mkdir .ssh
+  ssh-keygen -q -N "" -t ecdsa -f .ssh/id_ecdsa
+}
+
 # Prestart CouchDB
 if [ "$1" = 'couchdb']; then
 	# we need to set the permissions here because docker mounts volumes as root
@@ -52,16 +61,6 @@ if [ "$1" = 'couchdb']; then
 
 	exec gosu couchdb "$@"
 fi
-
-function prestart {
-  echo "extracting archives"
-  tar xf /tmp/vlic/rocklog-vlic.tar.gz
-
-  echo "build ssh keyfiles for ecdsa web tokens"
-  mkdir .ssh
-  ssh-keygen -q -N "" -t ecdsa -f .ssh/id_ecdsa
-}
-
 
 if [ "$2" = 'bash' ]; then
     echo "start just bash"
