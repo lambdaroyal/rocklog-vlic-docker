@@ -16,6 +16,11 @@ mkdir .ssh
 ssh-keygen -q -N "" -t ecdsa -f .ssh/id_ecdsa
 
 
+if [ "$1" = 'bash' ]; then
+    echo "start just bash"
+    exec bash
+fi 
+
 if [ "$1" = '32bit' ]; then
     echo "start rocklog-vlic with without generating demo data in 32bit vm"
     java-i586 -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
