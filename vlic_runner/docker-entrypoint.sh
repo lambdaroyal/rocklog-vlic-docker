@@ -19,7 +19,8 @@ if [ "$1" = 'couchdb' ]; then
 	# we need to set the permissions here because docker mounts volumes as root
 	chown -R couchdb:couchdb /opt/couchdb
 
-	chmod -R 0770 /data
+        # /data belongs to the linux-user, so 0xxX means others should be able to read/write
+	chmod -R 0777 /data
 
 	chmod 664 /opt/couchdb/etc/*.ini
 	chmod 664 /opt/couchdb/etc/local.d/*.ini
@@ -59,13 +60,8 @@ if [ "$1" = 'couchdb' ]; then
 	fi
 
 
-	exec gosu couchdb "$@"
+	exec gosu couchdb /opt/couchdb/bin/couchdb
 fi
-
-if [ "$2" = 'bash' ]; then
-    echo "start just bash"
-    exec bash
-fi 
 
 if [ "$2" = '32bit' ]; then
     echo "start rocklog-vlic with without generating demo data in 32bit vm"

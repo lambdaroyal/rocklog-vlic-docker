@@ -27,9 +27,9 @@ persist:
 extract: persist
 	-cp $(ARCHIVE) $(CONT_NAME)/tmp/vlic/rocklog-vlic.tar.gz
 
-bash:
+couchdb:
 	echo "Starting bash in new container"
-	sudo docker run --name=$(CONT_NAME) -it --restart='always' -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log ${IMAGE} couchdb bash
+	sudo docker run --name=$(CONT_NAME) -it --restart='always' -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log ${IMAGE} couchdb
 
 32bit: extract
 	echo "Building medium container with unique data dir $(CONT_NAME) with archive $(ARCHIVE) for customer data"
