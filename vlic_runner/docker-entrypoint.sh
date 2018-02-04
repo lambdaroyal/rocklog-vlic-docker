@@ -15,7 +15,7 @@ function prestart {
 }
 
 # Prestart CouchDB
-if [ "$1" = 'couchdb']; then
+if [ "$1" = 'couchdb' ]; then
 	# we need to set the permissions here because docker mounts volumes as root
 	chown -R couchdb:couchdb /opt/couchdb
 
