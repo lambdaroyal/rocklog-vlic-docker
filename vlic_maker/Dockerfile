@@ -4,15 +4,12 @@
 # Run instructions
 # sudo docker run -dit -p 22 -p 80 -v ~/.ssh:/var/buildbot/.ssh:ro vlic/vlic_maker:v4
 
-FROM vlic/vlic_app:v4
+FROM vlic/vlic_base:v4
 MAINTAINER Christian Meichsner <christian.meichsner@live.com>
 
 # Install supervisor
 RUN apt-get update && \
     apt-get install -y --force-yes supervisor git sudo ssh
-
-# Install lessc
-RUN npm install -g less glob node-version-assets msx
 
 # Install nginx
 RUN apt-get install -y --force-yes nginx
@@ -21,6 +18,15 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 ##########################################
 #Additional Deps for devops (build etc.)
 ##########################################
+RUN \
+ apt-get update && \
+ apt-get install -y --force-yes npm && \
+ npm install -g bower && \
+ ln -s /usr/bin/nodejs /usr/bin/node
+
+# Install lessc
+RUN npm install -g less glob node-version-assets msx
+
 RUN \
     curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
     apt-get install -y nodejs
@@ -56,4 +62,5 @@ RUN echo "sshd: ALL" >> /etc/hosts.allow
 #Startup Configuration
 ##########################################
 ENV LEIN_ROOT=1
-CMD ["/usr/bin/supervisord", "-n"]
+COPY ./docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
