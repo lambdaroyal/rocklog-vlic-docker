@@ -13,8 +13,13 @@ RUN \
 ##########################################
 #CouchDB Config
 ##########################################
+# Override std config
+RUN \
+    sed -e 's/^bind_address = .*$/bind_address = 0.0.0.0/' -i /opt/couchdb/etc/default.ini && \
+    sed -e 's/^database_dir = .*$/database_dir = \/data/' -i /opt/couchdb/etc/default.ini && \
+    sed -e 's/^view_index_dir = .*$/view_index_dir = \/data/' -i /opt/couchdb/etc/default.ini
+
 # Add configuration
-COPY local.ini /opt/couchdb/etc/local.d/
 COPY vm.args /opt/couchdb/etc/
 
 ##########################################
