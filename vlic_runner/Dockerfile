@@ -11,6 +11,13 @@ RUN \
  ssh-keygen -q -N "" -t ecdsa -f ~/.ssh/id_ecdsa
 
 ##########################################
+#CouchDB Config
+##########################################
+# Add configuration
+COPY local.ini /opt/couchdb/etc/local.d/
+COPY vm.args /opt/couchdb/etc/
+
+##########################################
 #Startup Configuration
 ##########################################
 ENV LEIN_ROOT=1
