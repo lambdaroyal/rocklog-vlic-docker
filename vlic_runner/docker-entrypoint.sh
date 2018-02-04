@@ -15,42 +15,18 @@ echo "build ssh keyfiles for ecdsa web tokens"
 mkdir .ssh
 ssh-keygen -q -N "" -t ecdsa -f .ssh/id_ecdsa
 
-if [ "$1" = 'demo32bit' ]; then
-    echo "start rocklog-vlic with demo dataset in 32bit vm"
-    java-i586 -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa --generate-testdata demo &
-    exec bash
-fi 
 
-if [ "$1" = 'big' ]; then
-    echo "start rocklog-vlic with big dataset"
-    java -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa --generate-testdata big &
-    exec bash
-fi 
-
-if [ "$1" = 'big32bit' ]; then
-    echo "start rocklog-vlic with big dataset in 32bit vm"
-    java-i586 -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa --generate-testdata big &
-    exec bash
-fi 
-
-if [ "$1" = 'medium-raw' ]; then
-    echo "start rocklog-vlic with medium numberrange set without generating demo data"
-    java -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa &
-    exec bash
-fi 
-
-if [ "$1" = 'medium-raw-32bit' ]; then
-    echo "start rocklog-vlic with medium numberrange set without generating demo data in 32bit vm"
-    java-i586 -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa &
-    exec bash
-fi 
-
-if [ "$1" = 'medium-raw-32bit-just-daemon' ]; then
-    echo "start rocklog-vlic with medium numberrange set without generating demo data in 32bit vm"
+if [ "$1" = '32bit' ]; then
+    echo "start rocklog-vlic with without generating demo data in 32bit vm"
     java-i586 -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
 fi 
 
-if [ "$1" = 'big-raw-32bit-just-daemon' ]; then
-    echo "start rocklog-vlic with big numberrange set without generating demo data in 32bit vm"
-    java-i586 -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
+if [ "$1" = '64bit' ]; then
+    echo "start rocklog-vlic with without generating demo data in 64bit vm"
+    java -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
+fi 
+
+if [ "$1" = '64bit-8g' ]; then
+    echo "start rocklog-vlic with without generating demo data in 64bit vm with max heap 8 gigabyte"
+    java -Duser.timezone=CET -XX:+UseG1GC -Xmx8g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
 fi 

@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo docker run -itd -p 22 -v ~/.ssh:/var/buildbot/.ssh:ro vlic/vlic_maker:v1
+sudo docker run -itd -p 23:22 -p 81:80 -v ~/.ssh:/var/buildbot/.ssh:ro vlic/vlic_maker:v4

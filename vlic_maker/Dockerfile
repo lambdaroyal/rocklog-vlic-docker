@@ -1,4 +1,10 @@
-FROM vlic/vlic_app:v2
+# Build instructions
+# sudo docker build -t vlic/vlic_maker:v4 .
+
+# Run instructions
+# sudo docker run -dit -p 22 -p 80 -v ~/.ssh:/var/buildbot/.ssh:ro vlic/vlic_maker:v4
+
+FROM vlic/vlic_app:v4
 MAINTAINER Christian Meichsner <christian.meichsner@live.com>
 
 # Install supervisor
@@ -11,6 +17,19 @@ RUN npm install -g less glob node-version-assets msx
 # Install nginx
 RUN apt-get install -y --force-yes nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+
+##########################################
+#Additional Deps for devops (build etc.)
+##########################################
+RUN \
+    curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
+    apt-get install -y nodejs
+RUN \
+ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN \
+ echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN \
+ apt-get update && apt-get install yarn
 
 # Expose HTML Port 80
 EXPOSE 80

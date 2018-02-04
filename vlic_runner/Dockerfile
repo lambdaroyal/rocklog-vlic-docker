@@ -1,4 +1,7 @@
-FROM vlic/vlic_app:v2
+# Build instructions
+# sudo docker build -t vlic/vlic_runner:v4 .
+
+FROM vlic/vlic_app:v4
 MAINTAINER Christian Meichsner <christian.meichsner@live.com>
 
 ##########################################
