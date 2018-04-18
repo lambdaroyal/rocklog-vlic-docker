@@ -1,15 +1,9 @@
 # Build instructions
-# sudo docker build -t vlic/vlic_runner:v4 .
+# sudo docker build -t vlic/vlic_runner:v5 .
+# sudo docker tag vlic/vlic_runner:v5 hub5.planet-rocklog.com:5000/vlic/vlic_runner:v5
 
-FROM vlic/vlic_app:v4
+FROM hub5.planet-rocklog.com:5000/vlic/vlic_app:v5
 MAINTAINER Christian Meichsner <christian.meichsner@live.com>
-
-##########################################
-#ecdsa keypair for json web tokens
-##########################################
-RUN \
- ssh-keygen -q -N "" -t ecdsa -f ~/.ssh/id_ecdsa
-
 
 ##########################################
 #Startup Configuration
