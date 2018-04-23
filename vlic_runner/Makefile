@@ -10,7 +10,7 @@ endif
 
 
 ifndef IMAGE
-	IMAGE := vlic/vlic_runner:v4
+	IMAGE := hub5.planet-rocklog.com:5000/vlic/vlic_runner:v5
 endif
 
 
@@ -33,7 +33,7 @@ bash: persist
 
 couchdb: persist
 	echo "Starting bash in new container"
-	sudo docker run --name=$(CONT_NAME) -it --restart='always' -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log ${IMAGE} couchdb
+	sudo docker run --name=$(CONT_NAME) -it -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log ${IMAGE} couchdb bash
 
 32bit: extract
 	echo "Building medium container with unique data dir $(CONT_NAME) with archive $(ARCHIVE) for customer data"
@@ -47,7 +47,7 @@ couchdb: persist
 	-sudo docker rm -f $(CONT_NAME)
 	sudo docker run --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v /etc/localtime:/etc/localtime:ro --log-driver=none ${IMAGE} couchdb 64bit
 
-64bit: extract
+64bit-8g: extract
 	echo "Building big container with unique data dir $(CONT_NAME) with archive $(ARCHIVE) for customer data"
 	-mkdir $(CONT_NAME)/log
 	-sudo docker rm -f $(CONT_NAME)
