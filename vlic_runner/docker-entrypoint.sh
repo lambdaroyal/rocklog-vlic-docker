@@ -10,8 +10,13 @@ function prestart {
   tar xf /tmp/vlic/rocklog-vlic.tar.gz
 
   echo "build ssh keyfiles for ecdsa web tokens"
-  mkdir .ssh
-  ssh-keygen -q -N "" -t ecdsa -f .ssh/id_ecdsa
+  mkdir -p .ssh
+  if [ -f .ssh/id_ecdsa ]
+  then
+    echo "id_ecdsa" exists
+  else
+    ssh-keygen -q -N "" -t ecdsa -f .ssh/id_ecdsa
+  fi
 }
 
 echo "$1" 
