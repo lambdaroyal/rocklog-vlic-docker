@@ -10,7 +10,7 @@ endif
 
 
 ifndef IMAGE
-	IMAGE := hub5.planet-rocklog.com:5000/vlic/vlic_runner:v5
+	IMAGE := hub5.planet-rocklog.com:5000/vlic/vlic_runner:v8
 endif
 
 
