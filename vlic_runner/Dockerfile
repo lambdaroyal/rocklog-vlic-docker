@@ -1,9 +1,16 @@
 # Build instructions
-# sudo docker build -t vlic/vlic_runner:v6 .
-# sudo docker tag vlic/vlic_runner:v6 hub5.planet-rocklog.com:5000/vlic/vlic_runner:v6
+# sudo docker build --no-cache -t vlic/vlic_runner:v8 .
+# sudo docker tag vlic/vlic_runner:v8 hub5.planet-rocklog.com:5000/vlic/vlic_runner:v8
+# sudo docker push hub5.planet-rocklog.com:5000/vlic/vlic_runner:v8
 
 FROM hub5.planet-rocklog.com:5000/vlic/vlic_app:v5
 MAINTAINER Christian Meichsner <christian.meichsner@live.com>
+
+RUN \
+    	DEBIAN_FRONTEND=noninteractive \
+	apt-get update && \
+	apt-get install -y --force-yes \
+    	libfontconfig1 libgcc1 
 
 ##########################################
 #Startup Configuration

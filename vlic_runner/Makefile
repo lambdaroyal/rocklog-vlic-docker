@@ -1,3 +1,4 @@
+VERSION := v8
 current_dir := $(shell pwd)
 
 ifndef VLIC_PORT
@@ -10,7 +11,7 @@ endif
 
 
 ifndef IMAGE
-	IMAGE := hub5.planet-rocklog.com:5000/vlic/vlic_runner:v5
+	IMAGE := hub5.planet-rocklog.com:5000/vlic/vlic_runner:v7
 endif
 
 
@@ -25,6 +26,7 @@ persist:
 	-mkdir $(CONT_NAME)/tmp/vlic
 
 extract: persist
+	test -f $(ARCHIVE) || curl http://hub3.planet-rocklog.com:81/$(ARCHIVE) > $(ARCHIVE)
 	-cp $(ARCHIVE) $(CONT_NAME)/tmp/vlic/rocklog-vlic.tar.gz
 
 couchdb:
@@ -48,3 +50,8 @@ couchdb:
 	-mkdir $(CONT_NAME)/log
 	-sudo docker rm -f $(CONT_NAME)
 	sudo docker run --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v /etc/localtime:/etc/localtime:ro --log-driver=none ${IMAGE} couchdb 64bit-8g
+
+docker:
+	sudo docker build --no-cache -t vlic/vlic_runner:${VERSION} .
+	sudo docker tag vlic/vlic_runner:${VERSION} hub5.planet-rocklog.com:5000/vlic/vlic_runner:${VERSION}
+	sudo docker push hub5.planet-rocklog.com:5000/vlic/vlic_runner:${VERSION}
