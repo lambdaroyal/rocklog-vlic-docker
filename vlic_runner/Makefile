@@ -11,7 +11,11 @@ endif
 
 
 ifndef IMAGE
+<<<<<<< HEAD
 	IMAGE := hub5.planet-rocklog.com:5000/vlic/vlic_runner:v7
+=======
+	IMAGE := hub5.planet-rocklog.com:5000/vlic/vlic_runner:v8
+>>>>>>> 8c73469425daf18ddfb4a88592154c638122c7fd
 endif
 
 
@@ -29,7 +33,11 @@ extract: persist
 	test -f $(ARCHIVE) || curl http://hub3.planet-rocklog.com:81/$(ARCHIVE) > $(ARCHIVE)
 	-cp $(ARCHIVE) $(CONT_NAME)/tmp/vlic/rocklog-vlic.tar.gz
 
-couchdb:
+bash: persist
+	echo "Starting bash in new container"
+	sudo docker run --name=$(CONT_NAME) -it --restart='always' -p $(COUCHDB_PORT):5984 -p 5987:5986 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log ${IMAGE} bash
+
+couchdb: persist
 	echo "Starting bash in new container"
 	sudo docker run --name=$(CONT_NAME) -it -p $(COUCHDB_PORT):5984 -p $(VLIC_PORT):8080 -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log ${IMAGE} couchdb bash
 
