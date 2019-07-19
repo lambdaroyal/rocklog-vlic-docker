@@ -21,6 +21,8 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN \
  apt-get update && \
  apt-get install -y --force-yes npm && \
+ npm i -g n && \
+ n 10.15.3 && \
  npm install -g bower && \
  ln -s /usr/bin/nodejs /usr/bin/node
 
