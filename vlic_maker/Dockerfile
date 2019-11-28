@@ -1,5 +1,5 @@
 # Build instructions
-# sudo docker build -t vlic/vlic_maker:v4 .
+# sudo docker build -t vlic/vlic_maker:v5 .
 
 # Run instructions
 # sudo docker run -dit -p 22 -p 80 -v ~/.ssh:/var/buildbot/.ssh:ro vlic/vlic_maker:v4
@@ -20,24 +20,15 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 ##########################################
 RUN \
  apt-get update && \
- apt-get install -y --force-yes npm && \
- npm i -g n && \
- n 10.15.3 && \
- npm install -g bower && \
  ln -s /usr/bin/nodejs /usr/bin/node
 
-# Install lessc
-RUN npm install -g less glob node-version-assets msx
+RUN \
+    apt-get install curl software-properties-common && \
+    curl -sL https://deb.nodesource.com/setup_13.x | bash - && \
+    apt-get install -y nodejs
 
 RUN \
-    curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
-    apt-get install -y nodejs
-RUN \
- curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN \
- echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN \
- apt-get update && apt-get install yarn
+    npm -g i npm nodejs yarn msx version lessc
 
 # Expose HTML Port 80
 EXPOSE 80
@@ -49,10 +40,15 @@ COPY nginx.conf /etc/nginx/sites-available/default
 run mkdir /var/run/sshd
 run useradd -m -d /var/buildbot -p sa1aY64JOY94w lambdaroyal-anon
 run mkdir /var/buildbot/repository && chown lambdaroyal-anon /var/buildbot/repository
+run adduser lambdaroyal-anon sudo
+run chsh -s /bin/bash lambdaroyal-anon
 
 # Set supervisord sshd and nginx processes
 run /bin/echo -e "[program:sshd]\ncommand=/usr/sbin/sshd -D\n" > /etc/supervisor/conf.d/sshd.conf
 run /bin/echo -e "[program:nginx]\ncommand=nginx\n" > /etc/supervisor/conf.d/nginx.conf
+
+# install less
+RUN npm -g i less
 
 # Expose container port 22 to a random port in the host.
 expose 22
