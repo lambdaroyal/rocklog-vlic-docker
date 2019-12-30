@@ -1,6 +1,6 @@
 # Build instructions
-# sudo docker build -t vlic/vlic_runner:v5 .
-# sudo docker tag vlic/vlic_runner:v5 hub5.planet-rocklog.com:5000/vlic/vlic_runner:v5
+# sudo docker build -t vlic/vlic_runner:v6 .
+# sudo docker tag vlic/vlic_runner:v6 hub5.planet-rocklog.com:5000/vlic/vlic_runner:v6
 
 FROM hub5.planet-rocklog.com:5000/vlic/vlic_app:v5
 MAINTAINER Christian Meichsner <christian.meichsner@live.com>
