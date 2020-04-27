@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 mkdir -p repository
 _user=$(stat -c '%U' .)
 _version="v5"
