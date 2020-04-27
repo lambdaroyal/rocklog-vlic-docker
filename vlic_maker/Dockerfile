@@ -36,12 +36,8 @@ EXPOSE 80
 # Copy custom configuration file
 COPY nginx.conf /etc/nginx/sites-available/default
 
-# Set ssh superuser (username: lambdaroyal-anon password: admin)
+# Set ssh superuser (username: per docker_entrypoint password: admin)
 run mkdir /var/run/sshd
-run useradd -m -d /var/buildbot -p sa1aY64JOY94w lambdaroyal-anon
-run mkdir /var/buildbot/repository && chown lambdaroyal-anon /var/buildbot/repository
-run adduser lambdaroyal-anon sudo
-run chsh -s /bin/bash lambdaroyal-anon
 
 # Set supervisord sshd and nginx processes
 run /bin/echo -e "[program:sshd]\ncommand=/usr/sbin/sshd -D\n" > /etc/supervisor/conf.d/sshd.conf
@@ -62,3 +58,4 @@ RUN echo "sshd: ALL" >> /etc/hosts.allow
 ENV LEIN_ROOT=1
 COPY ./docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["lambdaroyal-anon" "1000"]
