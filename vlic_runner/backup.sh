@@ -35,10 +35,13 @@ day=`LC_ALL=C date +%A`
 archive=$day.tar
 
 # create compressed archive
+mkdir -p backup
+rm -rf backup/*
 echo "Remove existing archive"
 rm -f $archive $archive.gpg
 echo "Create archive $archive from $source"
-tar czf $archive $source
+cp -rf $source backup/$source
+tar czf $archive backup/$source
 echo $gpgpasswd|gpg --batch --passphrase-fd 0 -c $archive
 lftp -e "set ftp:ssl-protect-data true; set ssl:verify-certificate false;set ftp:ssl-force true; put -O $ftpdir $archive.gpg; bye" -u $ftpuser,$ftppass $ftpserver
 rm -f $archive $archive.gpg
