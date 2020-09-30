@@ -5,13 +5,12 @@
 # This script consumes the subsequently listed parameters
 # $1 directory to compress
 
-while getopts :s:g:f:d:u:p: OPTION ; do
+while getopts :s:f:d:u:p: OPTION ; do
   case "$OPTION" in
     s)   
          source=$OPTARG
          echo "Using $OPTARG as source for archiving"
          ;;
-    g)   gpgpasswd=$OPTARG;;
     d)
          ftpdir=$OPTARG
          echo "Using $OPTARG as ftp upload dir"
@@ -35,10 +34,12 @@ day=`LC_ALL=C date +%A`
 archive=$day.tar
 
 # create compressed archive
+mkdir -p backup
+rm -rf backup/*
 echo "Remove existing archive"
-rm -f $archive $archive.gpg
+rm -f $archive
 echo "Create archive $archive from $source"
-tar czf $archive $source
-echo $gpgpasswd|gpg --batch --passphrase-fd 0 -c $archive
-lftp -e "set ftp:ssl-protect-data true; set ssl:verify-certificate false;set ftp:ssl-force true; put -O $ftpdir $archive.gpg; bye" -u $ftpuser,$ftppass $ftpserver
-rm -f $archive $archive.gpg
+cp -rf $source backup/$source
+tar czf $archive backup/$source
+lftp -e "set ftp:ssl-protect-data true; set ssl:verify-certificate false;set ftp:ssl-force true; put -O $ftpdir $archive; bye" -u $ftpuser,$ftppass $ftpserver
+rm -f $archive
