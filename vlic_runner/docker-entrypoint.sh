@@ -37,17 +37,17 @@ fi
 if [ "$2" = '32bit' ]; then
     echo "start rocklog-vlic with without generating demo data in 32bit vm - headless true"
     prestart
-    java-i586 -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
+    java-i586 -Djdk.tls.client.protocols="TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
 fi 
 
 if [ "$2" = '64bit' ]; then
     echo "start rocklog-vlic with without generating demo data in 64bit vm - headless true"
     prestart
-    java -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
+    java -Djdk.tls.client.protocols="TLSv1.2,SSLv3" -Djdk.tls.client.protocols="TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
 fi 
 
 if [ "$2" = '64bit-8g' ]; then
     echo "start rocklog-vlic with without generating demo data in 64bit vm with max heap 8 gigabyte - headless true"
     prestart
-    java -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx8g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
+    java -Djdk.tls.client.protocols="TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx8g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
 fi 

@@ -1,7 +1,7 @@
 # Build instructions
-# sudo docker build --no-cache -t vlic/vlic_runner:v8 .
-# sudo docker tag vlic/vlic_runner:v8 hub5.planet-rocklog.com:5000/vlic/vlic_runner:v8
-# sudo docker push hub5.planet-rocklog.com:5000/vlic/vlic_runner:v8
+# sudo docker build --no-cache -t vlic/vlic_runner:v10 .
+# sudo docker tag vlic/vlic_runner:v10 hub5.planet-rocklog.com:5000/vlic/vlic_runner:v10
+# sudo docker push hub5.planet-rocklog.com:5000/vlic/vlic_runner:v10
 
 FROM hub5.planet-rocklog.com:5000/vlic/vlic_app:v5
 MAINTAINER Christian Meichsner <christian.meichsner@live.com>
