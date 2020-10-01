@@ -26,7 +26,7 @@ persist:
 	-mkdir $(CONT_NAME)/tmp/vlic
 
 extract: persist
-	test -f $(ARCHIVE) || curl http://hub3.planet-rocklog.com:81/$(ARCHIVE) > $(ARCHIVE)
+	test -f $(ARCHIVE) || curl http://hub8.planet-rocklog.com/releases/$(ARCHIVE) > $(ARCHIVE)
 	-cp $(ARCHIVE) $(CONT_NAME)/tmp/vlic/rocklog-vlic.tar.gz
 
 bash: persist
