@@ -26,8 +26,10 @@ persist:
 	-mkdir $(CONT_NAME)/tmp/vlic
 
 extract: persist
-	test -f $(ARCHIVE) || curl http://hub8.planet-rocklog.com/releases/$(ARCHIVE) > $(ARCHIVE)
-	-cp $(ARCHIVE) $(CONT_NAME)/tmp/vlic/rocklog-vlic.tar.gz
+	test -f rocklog-vlic-$(BUILD).tar.gz || curl -H "Circle-Token: b250301c3c80a76602204b52e9705014940d12b7" https://circleci.com/api/v1.1/project/github/lambdaroyal/rocklog-vlic/$(BUILD)/artifacts | grep -o 'https://[^"]*' | wget --verbose --header "Circle-Token: b250301c3c80a76602204b52e9705014940d12b7" --input-file -
+	-cp rocklog-vlic.tar.gz rocklog-vlic-$(BUILD).tar.gz 
+	-cp rocklog-vlic-$(BUILD).tar.gz $(CONT_NAME)/tmp/vlic/rocklog-vlic.tar.gz
+	-rm rocklog-vlic.tar.gz
 
 bash: persist
 	echo "Starting bash in new container"
