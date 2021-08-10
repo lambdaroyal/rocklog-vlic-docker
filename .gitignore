@@ -5,3 +5,4 @@ rocklog-vlic/
 *_development/
 *_edge/
 vlic_runner/*.jar*
+.env

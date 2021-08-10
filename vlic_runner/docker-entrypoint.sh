@@ -20,46 +20,39 @@ function prestart {
 }
 
 echo "$1" 
-echo "$2"
 
-# Prestart CouchDB
-if [ "$1" = 'couchdb' ]; then
-  echo "start CouchDB"
-  exec "/usr/local/bin/couchdb" > /dev/null &
-fi
-
-if [ "$2" = 'bash' ]; then
+if [ "$1" = 'bash' ]; then
   echo "start bash"
   bash
 fi
 
-if [ "$2" = '64bit' ]; then
+if [ "$1" = '64bit' ]; then
     echo "start rocklog-vlic with without generating demo data in 64bit vm - headless true"
     prestart
-    java -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
+    java -Dmongodb_username=${MONGODB_USERNAME} -Dmongodb_password=${MONGODB_PASSWORD} -Dmongodb_posturl=${MONGODB_POSTURL} -Dmongodb_preurl=${MONGODB_PREURL} -Dmongodb_dbname=${MONGODB_DBNAME} -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
 fi 
 
-if [ "$2" = '64bit-2g' ]; then
+if [ "$1" = '64bit-2g' ]; then
     echo "start rocklog-vlic with without generating demo data in 64bit vm - headless true"
     prestart
-    java -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx2g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
+    java -Dmongodb_username=${MONGODB_USERNAME} -Dmongodb_password=${MONGODB_PASSWORD} -Dmongodb_posturl=${MONGODB_POSTURL} -Dmongodb_preurl=${MONGODB_PREURL} -Dmongodb_dbname=${MONGODB_DBNAME} -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx2g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
 fi 
 
-if [ "$2" = '64bit-3g' ]; then
+if [ "$1" = '64bit-3g' ]; then
+    echo "start rocklog-vlic with without generating demo data in 64bit vm - headless true max RAM 3gb"
+    prestart
+    java -Dmongodb_username=${MONGODB_USERNAME} -Dmongodb_password=${MONGODB_PASSWORD} -Dmongodb_posturl=${MONGODB_POSTURL} -Dmongodb_preurl=${MONGODB_PREURL} -Dmongodb_dbname=${MONGODB_DBNAME} -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx3g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa --evictor-type mongodb
+fi 
+
+if [ "$1" = '64bit-4g' ]; then
     echo "start rocklog-vlic with without generating demo data in 64bit vm - headless true"
     prestart
-    java -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx3g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
-fi 
-
-if [ "$2" = '64bit-4g' ]; then
-    echo "start rocklog-vlic with without generating demo data in 64bit vm - headless true"
-    prestart
-    java -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx4g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
+    java -Dmongodb_username="$MONGODB_USERNAME" -Dmongodb_password="$MONGODB_PASSWORD" -Dmongodb_posturl="$MONGODB_POSTURL" -Dmongodb_preurl="$MONGODB_PREURL" -Dmongodb_dbname="$MONGODB_DBNAME" -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx4g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
 fi 
 
 
-if [ "$2" = '64bit-8g' ]; then
+if [ "$1" = '64bit-8g' ]; then
     echo "start rocklog-vlic with without generating demo data in 64bit vm with max heap 8 gigabyte - headless true"
     prestart
-    java -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx8g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
+    java -Dmongodb_username=${MONGODB_USERNAME} -Dmongodb_password=${MONGODB_PASSWORD} -Dmongodb_posturl=${MONGODB_POSTURL} -Dmongodb_preurl=${MONGODB_PREURL} -Dmongodb_dbname=${MONGODB_DBNAME} -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx8g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
 fi 
