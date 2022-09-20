@@ -20,10 +20,10 @@ ifndef CONT_NAME
 endif
 
 build:
-	docker build --no-cache -t vlic/vlic_runner:${VERSION} .
-	docker tag vlic/vlic_runner:v10 hub5.planet-rocklog.com:5000/vlic/vlic_runner:${VERSION}
+	sudo docker build --no-cache -t vlic/vlic_runner:${VERSION} .
+	sudo docker tag vlic/vlic_runner:${VERSION} hub5.planet-rocklog.com:5000/vlic/vlic_runner:${VERSION}
 deploy:
-	docker push hub5.planet-rocklog.com:5000/vlic/vlic_runner:${VERSION}
+	sudo docker push hub5.planet-rocklog.com:5000/vlic/vlic_runner:${VERSION}
 
 persist:
 	-mkdir $(CONT_NAME)
@@ -31,7 +31,7 @@ persist:
 	-mkdir $(CONT_NAME)/tmp
 	-mkdir $(CONT_NAME)/tmp/vlic
 	-mkdir $(CONT_NAME)/log
-        -mkdir $(CONT_NAME)/log/evictor
+	-mkdir $(CONT_NAME)/log/evictor
 
 extract: persist
 	test -f rocklog-vlic-$(BUILD).tar.gz || curl -H "Circle-Token: b250301c3c80a76602204b52e9705014940d12b7" https://circleci.com/api/v1.1/project/github/lambdaroyal/rocklog-vlic/$(BUILD)/artifacts | grep -o 'https://[^"]*' | wget --verbose --header "Circle-Token: b250301c3c80a76602204b52e9705014940d12b7" --input-file -
