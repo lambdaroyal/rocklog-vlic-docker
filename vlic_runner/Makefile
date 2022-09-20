@@ -19,6 +19,12 @@ ifndef CONT_NAME
 	CONT_NAME := $(shell date +%s | sha256sum | base64 | head -c 32)
 endif
 
+build:
+	docker build --no-cache -t vlic/vlic_runner:${VERSION} .
+	docker tag vlic/vlic_runner:v10 hub5.planet-rocklog.com:5000/vlic/vlic_runner:${VERSION}
+deploy:
+	docker push hub5.planet-rocklog.com:5000/vlic/vlic_runner:${VERSION}
+
 persist:
 	-mkdir $(CONT_NAME)
 	-mkdir $(CONT_NAME)/data
@@ -83,8 +89,3 @@ couchdb: persist
 	echo "Building big container with unique data dir $(CONT_NAME) with archive $(ARCHIVE) for customer data"
 	-sudo docker rm -f $(CONT_NAME)
 	sudo docker run -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -p 1$(VLIC_PORT):4050 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v $(current_dir)/$(CONT_NAME)/log/evictor:/log -v /etc/localtime:/etc/localtime:ro --cpus="2" --log-driver=none ${IMAGE} couchdb 64bit-3g
-
-docker:
-	sudo docker build --no-cache -t vlic/vlic_runner:${VERSION} .
-	sudo docker tag vlic/vlic_runner:${VERSION} hub5.planet-rocklog.com:5000/vlic/vlic_runner:${VERSION}
-	sudo docker push hub5.planet-rocklog.com:5000/vlic/vlic_runner:${VERSION}
