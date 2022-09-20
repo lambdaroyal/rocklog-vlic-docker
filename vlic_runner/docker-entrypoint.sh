@@ -63,3 +63,27 @@ if [ "$2" = '64bit-8g' ]; then
     prestart
     java -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx8g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
 fi 
+
+if [ "$2" = '64bit-12g' ]; then
+    echo "start rocklog-vlic with without generating demo data in 64bit vm with max heap 8 gigabyte - headless true"
+    prestart
+    java -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx12g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
+fi 
+
+if [ "$2" = '64bit-16g' ]; then
+    echo "start rocklog-vlic with without generating demo data in 64bit vm with max heap 8 gigabyte - headless true"
+    prestart
+    java -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx16g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
+fi 
+
+if [ "$2" = '64bit-24g' ]; then
+    echo "start rocklog-vlic with without generating demo data in 64bit vm with max heap 8 gigabyte - headless true"
+    prestart
+    java -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx24g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
+fi 
+
+if [ "$2" = '64bit-32g' ]; then
+    echo "start rocklog-vlic with without generating demo data in 64bit vm with max heap 8 gigabyte - headless true"
+    prestart
+    java -Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2,SSLv3" -Djava.awt.headless=true -Duser.timezone=CET -XX:+UseG1GC -Xmx32g -XX:+UseStringDeduplication -jar target/rocklog-vlic-standalone.jar --private-key-file .ssh/id_ecdsa
+fi 

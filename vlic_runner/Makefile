@@ -1,4 +1,4 @@
-VERSION := v10
+VERSION := v11
 current_dir := $(shell pwd)
 
 ifndef VLIC_PORT
@@ -24,6 +24,8 @@ persist:
 	-mkdir $(CONT_NAME)/data
 	-mkdir $(CONT_NAME)/tmp
 	-mkdir $(CONT_NAME)/tmp/vlic
+	-mkdir $(CONT_NAME)/log
+        -mkdir $(CONT_NAME)/log/evictor
 
 extract: persist
 	test -f rocklog-vlic-$(BUILD).tar.gz || curl -H "Circle-Token: b250301c3c80a76602204b52e9705014940d12b7" https://circleci.com/api/v1.1/project/github/lambdaroyal/rocklog-vlic/$(BUILD)/artifacts | grep -o 'https://[^"]*' | wget --verbose --header "Circle-Token: b250301c3c80a76602204b52e9705014940d12b7" --input-file -
@@ -41,27 +43,46 @@ couchdb: persist
 
 64bit: extract
 	echo "Building big container with unique data dir $(CONT_NAME) with archive $(ARCHIVE) for customer data"
-	-mkdir $(CONT_NAME)/log
 	-sudo docker rm -f $(CONT_NAME)
-	sudo docker run -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -p 1$(VLIC_PORT):4050 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v /etc/localtime:/etc/localtime:ro --log-driver=none ${IMAGE} couchdb 64bit
+	sudo docker run -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -p 1$(VLIC_PORT):4050 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v $(current_dir)/$(CONT_NAME)/log/evictor:/log -v /etc/localtime:/etc/localtime:ro --cpus="6" --log-driver=none ${IMAGE} couchdb 64bit
+
+64bit-32g: extract
+	echo "Building big container with unique data dir $(CONT_NAME) with archive $(ARCHIVE) for customer data"
+	-sudo docker rm -f $(CONT_NAME)
+	sudo docker run -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -p 1$(VLIC_PORT):4050 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v $(current_dir)/$(CONT_NAME)/log/evictor:/log -v /etc/localtime:/etc/localtime:ro --cpus="16" --log-driver=none ${IMAGE} couchdb 64bit-32g
+
+
+64bit-24g: extract
+	echo "Building big container with unique data dir $(CONT_NAME) with archive $(ARCHIVE) for customer data"
+	-sudo docker rm -f $(CONT_NAME)
+	sudo docker run -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -p 1$(VLIC_PORT):4050 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v $(current_dir)/$(CONT_NAME)/log/evictor:/log -v /etc/localtime:/etc/localtime:ro --cpus="16" --log-driver=none ${IMAGE} couchdb 64bit-24g
+
+
+64bit-16g: extract
+	echo "Building big container with unique data dir $(CONT_NAME) with archive $(ARCHIVE) for customer data"
+	-sudo docker rm -f $(CONT_NAME)
+	sudo docker run -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -p 1$(VLIC_PORT):4050 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v $(current_dir)/$(CONT_NAME)/log/evictor:/log -v /etc/localtime:/etc/localtime:ro --cpus="8" --log-driver=none ${IMAGE} couchdb 64bit-16g
+
+
+64bit-12g: extract
+	echo "Building big container with unique data dir $(CONT_NAME) with archive $(ARCHIVE) for customer data"
+	-sudo docker rm -f $(CONT_NAME)
+	sudo docker run -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -p 1$(VLIC_PORT):4050 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v $(current_dir)/$(CONT_NAME)/log/evictor:/log -v /etc/localtime:/etc/localtime:ro --cpus="8" --log-driver=none ${IMAGE} couchdb 64bit-12g
 
 64bit-8g: extract
 	echo "Building big container with unique data dir $(CONT_NAME) with archive $(ARCHIVE) for customer data"
-	-mkdir $(CONT_NAME)/log
 	-sudo docker rm -f $(CONT_NAME)
-	sudo docker run -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -p 1$(VLIC_PORT):4050 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v /etc/localtime:/etc/localtime:ro --log-driver=none ${IMAGE} couchdb 64bit-8g
+	sudo docker run -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -p 1$(VLIC_PORT):4050 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v $(current_dir)/$(CONT_NAME)/log/evictor:/log -v /etc/localtime:/etc/localtime:ro --cpus="4" --log-driver=none ${IMAGE} couchdb 64bit-8g
 
 64bit-2g: extract
 	echo "Building big container with unique data dir $(CONT_NAME) with archive $(ARCHIVE) for customer data"
-	-mkdir $(CONT_NAME)/log
 	-sudo docker rm -f $(CONT_NAME)
-	sudo docker run -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -p 1$(VLIC_PORT):4050 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v /etc/localtime:/etc/localtime:ro --log-driver=none ${IMAGE} couchdb 64bit-2g
+	sudo docker run -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -p 1$(VLIC_PORT):4050 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v $(current_dir)/$(CONT_NAME)/log/evictor:/log -v /etc/localtime:/etc/localtime:ro --cpus="2" --log-driver=none ${IMAGE} couchdb 64bit-2g
 
 64bit-3g: extract
 	echo "Building big container with unique data dir $(CONT_NAME) with archive $(ARCHIVE) for customer data"
-	-mkdir $(CONT_NAME)/log
 	-sudo docker rm -f $(CONT_NAME)
-	sudo docker run -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -p 1$(VLIC_PORT):4050 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v /etc/localtime:/etc/localtime:ro --log-driver=none ${IMAGE} couchdb 64bit-3g
+	sudo docker run -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -p 1$(VLIC_PORT):4050 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v $(current_dir)/$(CONT_NAME)/log/evictor:/log -v /etc/localtime:/etc/localtime:ro --cpus="2" --log-driver=none ${IMAGE} couchdb 64bit-3g
 
 docker:
 	sudo docker build --no-cache -t vlic/vlic_runner:${VERSION} .
