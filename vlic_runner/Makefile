@@ -20,8 +20,8 @@ ifndef CONT_NAME
 endif
 
 build:
-	sudo docker build --no-cache -t vlic/vlic_runner:${VERSION} .
-	sudo docker tag vlic/vlic_runner:${VERSION} hub5.planet-rocklog.com:5000/vlic/vlic_runner:${VERSION}
+	docker build --no-cache -t vlic/vlic_runner:${VERSION} .
+	docker tag vlic/vlic_runner:${VERSION} hub5.planet-rocklog.com:5000/vlic/vlic_runner:${VERSION}
 deploy:
 	sudo docker push hub5.planet-rocklog.com:5000/vlic/vlic_runner:${VERSION}
 
