@@ -1,3 +1,4 @@
+CIRCLECI_APIKEY := 9eb35a914bb0b0d5be0ac7728a7cdf3c33e49c06
 VERSION := v12
 current_dir := $(shell pwd)
 
@@ -51,7 +52,7 @@ extract-old: persist
 	sudo docker run -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 --rm --name=$(CONT_NAME) -p $(VLIC_PORT):8080 -p 1$(VLIC_PORT):4050 -p 2$(VLIC_PORT):5984 -v $(current_dir)/$(CONT_NAME)/.ssh:/.ssh -v $(current_dir)/$(CONT_NAME)/data:/data -v $(current_dir)/$(CONT_NAME)/tmp/vlic:/tmp/vlic -v $(current_dir)/$(CONT_NAME)/log:/usr/local/var/log/couchdb/ -v /etc/localtime:/etc/localtime:ro --log-driver=none --cpus="$(CORES)" $(IMAGE) couchdb 64bit $(Xmx)
 
 extract: persist
-	test -f rocklog-vlic-$(BUILD).tar.gz || curl -H "Circle-Token: b250301c3c80a76602204b52e9705014940d12b7" https://circleci.com/api/v1.1/project/github/lambdaroyal/rocklog-vlic/$(BUILD)/artifacts | grep -o 'https://[^"]*' | wget --verbose --header "Circle-Token: b250301c3c80a76602204b52e9705014940d12b7" --input-file -
+	test -f rocklog-vlic-$(BUILD).tar.gz || curl -H "Circle-Token: $(CIRCLECI_APIKEY)" https://circleci.com/api/v1.1/project/github/lambdaroyal/rocklog-vlic/$(BUILD)/artifacts | grep -o 'https://[^"]*' | wget --verbose --header "Circle-Token: $(CIRCLECI_APIKEY)" --input-file -
 	-cp rocklog-vlic.tar.gz rocklog-vlic-$(BUILD).tar.gz 
 	-cp rocklog-vlic-$(BUILD).tar.gz $(CONT_NAME)/tmp/vlic/rocklog-vlic.tar.gz
 	-rm rocklog-vlic.tar.gz
